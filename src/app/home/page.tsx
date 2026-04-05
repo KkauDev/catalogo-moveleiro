@@ -1,68 +1,121 @@
 "use client";
 
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import Navbar from "@/components/layout/navbar";
 import Image from "next/image";
 import logomadan from "../../../public/img/logomadan.png";
+
 import { ChairIcon, StarIcon } from "@phosphor-icons/react";
 import { Truck, ShieldCheck } from "lucide-react";
 
-export function Home() {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+export default function Home() {
+  const { scrollY } = useScroll();
+
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
   return (
     <>
-      <main
-        style={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center ",
-        }}
-      >
-        <Image
-          src={logomadan}
-          alt="Logo da Madan"
-          className="h-auto"
-          width={800}
-        />
+      <Navbar />
+
+      {/* HERO */}
+      <main className="flex h-screen w-full items-center justify-center overflow-hidden">
+        <motion.div
+          style={{ y, opacity }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Image
+            src={logomadan}
+            alt="Logo da Madan"
+            className="h-auto drop-shadow-2xl"
+            width={700}
+            priority
+          />
+        </motion.div>
       </main>
 
-      <section className="bg-linear-to-r from-[#BF925A] to-[#6b3f05] w-full py-6">
-        <div className="flex justify-center gap-10">
-          <div className="flex items-center gap-4 text-white">
-            <ChairIcon size={50} />
+      {/* BENEFÍCIOS */}
+      <section className="bg-gradient-to-r from-[#BF925A] to-[#6b3f05] w-full py-8">
+        <motion.div
+          className="flex flex-wrap justify-center gap-10 px-6 md:px-10 max-w-7xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4 text-white"
+          >
+            <ChairIcon size={40} />
 
             <div>
-              <p className="font-semibold">Garantia de fabrica</p>
-              <p className="text-sm">Produtos a preço de fabrica</p>
+              <p className="font-semibold">Garantia de fábrica</p>
+              <p className="text-sm opacity-80">
+                Produtos direto do fabricante
+              </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4 text-white">
-            <StarIcon size={50} />
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4 text-white"
+          >
+            <StarIcon size={40} />
 
             <div>
-              <p className="font-semibold">Produtos a pronta entrega</p>
-              <p className="text-sm">Frete e montagem inclusos no pagamento</p>
+              <p className="font-semibold">Alta qualidade</p>
+              <p className="text-sm opacity-80">Materiais selecionados</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4 text-white">
-            <Truck size={50} />
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4 text-white"
+          >
+            <Truck size={40} />
 
             <div>
-              <p className="font-semibold">Produtos a pronta entrega</p>
-              <p className="text-sm">Frete e montagem inclusos no pagamento</p>
+              <p className="font-semibold">Entrega rápida</p>
+              <p className="text-sm opacity-80">Frete e montagem inclusos</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-4 text-white">
-            <ShieldCheck size={50} />
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4 text-white"
+          >
+            <ShieldCheck size={40} />
 
             <div>
               <p className="font-semibold">Compra segura</p>
-              <p className="text-sm">Pague apenas na entrega!</p>
+              <p className="text-sm opacity-80">Pague somente na entrega</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
     </>
   );

@@ -1,4 +1,4 @@
-import { Home } from "./home/page";
+import Home from "./home/page";
 import Introducao from "./introducao/page";
 import Novidades from "./novidades/page";
 import Linhas from "./linhas/page";

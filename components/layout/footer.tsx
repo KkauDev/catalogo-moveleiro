@@ -1,24 +1,24 @@
 import {
-  Phone,
-  Mail,
-  MapPin,
-  Instagram,
-  Facebook,
-  Youtube,
-} from "lucide-react";
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaInstagram,
+  FaFacebook,
+} from "react-icons/fa";
 
 import Image from "next/image";
-import logomadan from "../../../public/img/logomadan.png";
 
 export default function Footer() {
   return (
     <footer className="bg-[#0A0F1C] text-white border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* LOGO + DESCRIÇÃO */}
         <div className="space-y-6">
           <Image
-            src={logomadan}
+            src="/img/logomadan.png"
             alt="Logo da Madan"
             width={200}
+            height={100}
             className="h-auto"
           />
 
@@ -27,8 +27,9 @@ export default function Footer() {
             com atendimento exclusivo e produtos de alta qualidade.
           </p>
 
+          {/* REDES SOCIAIS */}
           <div className="flex gap-4">
-            {[Instagram, Facebook, Youtube].map((Icon, i) => (
+            {[FaInstagram, FaFacebook].map((Icon, i) => (
               <div
                 key={i}
                 className="p-2 rounded-lg bg-white/5 hover:bg-[#DB9166]/20 transition duration-300 cursor-pointer hover:scale-110"
@@ -39,6 +40,7 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* NAVEGAÇÃO */}
         <div>
           <h2 className="text-sm font-semibold text-[#DB9166] uppercase tracking-wider mb-6">
             Navegação
@@ -56,6 +58,7 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* CONTATO */}
         <div>
           <h2 className="text-sm font-semibold text-orange-400 uppercase tracking-wider mb-6">
             Contato
@@ -63,7 +66,7 @@ export default function Footer() {
 
           <div className="space-y-4 text-sm text-gray-400">
             <div className="flex items-start gap-3">
-              <MapPin size={18} className="text-orange-400 mt-1" />
+              <FaMapMarkerAlt size={18} className="text-orange-400 mt-1" />
               <p>
                 Rua Isaac Ferreira da Cruz, 4115 <br />
                 Curitiba - PR
@@ -71,18 +74,19 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3 hover:text-white transition">
-              <Mail size={18} className="text-orange-400" />
+              <FaEnvelope size={18} className="text-orange-400" />
               <p>madanmoveis@gmail.com</p>
             </div>
 
             <div className="flex items-center gap-3 hover:text-white transition">
-              <Phone size={18} className="text-[#DB9166]" />
+              <FaPhone size={18} className="text-[#DB9166]" />
               <p>(41) 1557-8859</p>
             </div>
           </div>
         </div>
       </div>
 
+      {/* RODAPÉ FINAL */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>
