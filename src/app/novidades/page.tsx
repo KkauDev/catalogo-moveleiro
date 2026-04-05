@@ -29,7 +29,7 @@ import mesa8 from "../../../public/img/imgMesa/mesa8.jpg";
 const cards = [
   {
     img: mesa1,
-    title: "Conjunto Elisa 180x090",
+    title: "Conjunto Martha 180x090",
     subtitle: "+ 6 cadeiras Agatha",
     parcela: "12x R$478,00",
     preco: "R$4.499,00",
