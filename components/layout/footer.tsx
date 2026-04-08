@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FaPhone,
   FaEnvelope,
@@ -7,13 +9,42 @@ import {
 } from "react-icons/fa";
 
 import Image from "next/image";
+import { motion, easeOut, Variants } from "framer-motion";
 
 export default function Footer() {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: easeOut,
+      },
+    },
+  };
+
   return (
-    <footer className="bg-[#0A0F1C] text-white border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-        {/* LOGO + DESCRIÇÃO */}
-        <div className="space-y-6">
+    <footer className="bg-[#0A0F1C] text-white border-t border-white/10 overflow-hidden">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+        className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12"
+      >
+        <motion.div variants={itemVariants} className="space-y-6">
           <Image
             src="/img/logomadan.png"
             alt="Logo da Madan"
@@ -27,21 +58,19 @@ export default function Footer() {
             com atendimento exclusivo e produtos de alta qualidade.
           </p>
 
-          {/* REDES SOCIAIS */}
           <div className="flex gap-4">
             {[FaInstagram, FaFacebook].map((Icon, i) => (
               <div
                 key={i}
-                className="p-2 rounded-lg bg-white/5 hover:bg-[#DB9166]/20 transition duration-300 cursor-pointer hover:scale-110"
+                className="p-2 rounded-lg bg-white/5 hover:bg-[#DB9166]/20 transition duration-300 cursor-pointer hover:scale-110 hover:shadow-lg hover:shadow-[#DB9166]/20"
               >
                 <Icon size={18} className="text-[#DB9166]" />
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* NAVEGAÇÃO */}
-        <div>
+        <motion.div variants={itemVariants}>
           <h2 className="text-sm font-semibold text-[#DB9166] uppercase tracking-wider mb-6">
             Navegação
           </h2>
@@ -56,17 +85,16 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
-        {/* CONTATO */}
-        <div>
-          <h2 className="text-sm font-semibold text-orange-400 uppercase tracking-wider mb-6">
+        <motion.div variants={itemVariants}>
+          <h2 className="text-sm font-semibold text-[#DB9166] uppercase tracking-wider mb-6">
             Contato
           </h2>
 
           <div className="space-y-4 text-sm text-gray-400">
             <div className="flex items-start gap-3">
-              <FaMapMarkerAlt size={18} className="text-orange-400 mt-1" />
+              <FaMapMarkerAlt size={18} className="text-[#DB9166] mt-1" />
               <p>
                 Rua Isaac Ferreira da Cruz, 4115 <br />
                 Curitiba - PR
@@ -74,7 +102,7 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3 hover:text-white transition">
-              <FaEnvelope size={18} className="text-orange-400" />
+              <FaEnvelope size={18} className="text-[#DB9166]" />
               <p>madanmoveis@gmail.com</p>
             </div>
 
@@ -83,23 +111,28 @@ export default function Footer() {
               <p>(41) 1557-8859</p>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* RODAPÉ FINAL */}
-      <div className="border-t border-white/10">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.3, ease: easeOut }}
+        className="border-t border-white/10"
+      >
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>
             © {new Date().getFullYear()} Madan Móveis. Todos os direitos
             reservados.
           </p>
 
-          <p className="text-gray-500">
+          <p>
             Desenvolvido por{" "}
             <span className="text-[#DB9166]">Kauã Emanuel</span>
           </p>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

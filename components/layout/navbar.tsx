@@ -46,7 +46,7 @@ export default function Navbar() {
         >
           <span className="relative inline-block cursor-pointer group">
             Cadeiras
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
           </span>
         </Link>
 
@@ -56,14 +56,14 @@ export default function Navbar() {
         >
           <span className="relative inline-block cursor-pointer group">
             Mesas
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
           </span>
         </Link>
 
         <Link className="opacity-60 hover:opacity-100 transition" href="/Home">
           <span className="relative inline-block cursor-pointer group">
             Início
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
           </span>
         </Link>
 
@@ -73,7 +73,7 @@ export default function Navbar() {
         >
           <span className="relative inline-block cursor-pointer group">
             Sofás
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
           </span>
         </Link>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
         >
           <span className="relative inline-block cursor-pointer group">
             Bistrôs
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
           </span>
         </Link>
       </div>
