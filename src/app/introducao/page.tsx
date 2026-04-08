@@ -44,7 +44,7 @@ export default function Introducao() {
             <Image
               src={mesa4}
               alt="Mesa Madan"
-              className="w-125 h-350px object-cover transition duration-500 hover:scale-105 hover:brightness-110"
+              className="w-125 h-125 object-cover transition duration-500 hover:scale-105 hover:brightness-110"
               priority
             />
           </div>

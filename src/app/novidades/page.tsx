@@ -91,7 +91,7 @@ export default function Novidades() {
       <div className="w-[80%] flex justify-between items-center py-10">
         <h1 className="font-bold text-5xl text-white">Novidades</h1>
 
-        <Link href={"/novidades"}>
+        <Link href={"/produtos"}>
           <Button className="flex items-center gap-2 bg-[#1E1E26] hover:bg-[#BF925A]">
             Ver Todos
             <MoveRight />

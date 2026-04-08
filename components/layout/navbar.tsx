@@ -60,7 +60,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <Link className="opacity-60 hover:opacity-100 transition" href="/Home">
+        <Link className="opacity-60 hover:opacity-100 transition" href="/">
           <span className="relative inline-block cursor-pointer group">
             Início
             <span className="absolute left-0 -bottom-1 h-2px w-0 bg-[#DB9166] transition-all duration-300 group-hover:w-full"></span>
