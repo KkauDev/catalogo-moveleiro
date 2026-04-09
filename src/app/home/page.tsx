@@ -58,9 +58,13 @@ export default function Home() {
       </main>
 
       {/* BENEFÍCIOS */}
-      <section className="bg-gradient-to-r from-[#BF925A] to-[#6b3f05] w-full py-8">
+      <section className="bg-linear-to-r from-[#BF925A] to-[#6b3f05] w-full py-8">
         <motion.div
-          className="flex flex-wrap justify-center gap-10 px-6 md:px-10 max-w-7xl mx-auto"
+          className="
+      grid grid-cols-2 gap-6 px-6
+      md:flex md:flex-wrap md:justify-center md:gap-10 md:px-10
+      max-w-7xl mx-auto
+    "
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
@@ -68,13 +72,15 @@ export default function Home() {
         >
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 text-white"
+            className="flex items-center gap-3 md:gap-4 text-white"
           >
-            <ChairIcon size={40} />
+            <ChairIcon size={32} className="md:size-40px" />
 
             <div>
-              <p className="font-semibold">Garantia de fábrica</p>
-              <p className="text-sm opacity-80">
+              <p className="font-semibold text-xs sm:text-sm md:text-base whitespace-nowrap tracking-tight">
+                Garantia de fábrica
+              </p>
+              <p className="text-xs md:text-sm opacity-80">
                 Produtos direto do fabricante
               </p>
             </div>
@@ -82,37 +88,49 @@ export default function Home() {
 
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 text-white"
+            className="flex items-center gap-3 md:gap-4 text-white"
           >
-            <StarIcon size={40} />
+            <StarIcon size={32} className="md:size-40px" />
 
             <div>
-              <p className="font-semibold">Alta qualidade</p>
-              <p className="text-sm opacity-80">Materiais selecionados</p>
+              <p className="font-semibold text-xs sm:text-sm md:text-base">
+                Alta qualidade
+              </p>
+              <p className="text-xs md:text-sm opacity-80">
+                Materiais selecionados
+              </p>
             </div>
           </motion.div>
 
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 text-white"
+            className="flex items-center gap-3 md:gap-4 text-white"
           >
-            <Truck size={40} />
+            <Truck size={32} className="md:size-40px" />
 
             <div>
-              <p className="font-semibold">Entrega rápida</p>
-              <p className="text-sm opacity-80">Frete e montagem inclusos</p>
+              <p className="font-semibold text-xs sm:text-sm md:text-base">
+                Entrega rápida
+              </p>
+              <p className="text-xs md:text-sm opacity-80">
+                Frete e montagem inclusos
+              </p>
             </div>
           </motion.div>
 
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 text-white"
+            className="flex items-center gap-3 md:gap-4 text-white"
           >
-            <ShieldCheck size={40} />
+            <ShieldCheck size={32} className="md:size-40px" />
 
             <div>
-              <p className="font-semibold">Compra segura</p>
-              <p className="text-sm opacity-80">Pague somente na entrega</p>
+              <p className="font-semibold text-xs sm:text-sm md:text-base">
+                Compra segura
+              </p>
+              <p className="text-xs md:text-sm opacity-80">
+                Pague somente na entrega
+              </p>
             </div>
           </motion.div>
         </motion.div>
