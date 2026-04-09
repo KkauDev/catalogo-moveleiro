@@ -77,6 +77,7 @@ export default function Navbar() {
               >
                 <span className="relative inline-block cursor-pointer group">
                   {link.name}
+                  {/* HOVER ANIMADO DO DESKTOP */}
                   <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-[#BF925A] transition-all duration-300 group-hover:w-full"></span>
                 </span>
               </Link>
