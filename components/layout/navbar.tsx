@@ -20,7 +20,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Botão "Início"
+
   function handleHomeClick(e: React.MouseEvent) {
     if (pathname === "/") {
       e.preventDefault();
@@ -63,7 +63,7 @@ export default function Navbar() {
         animate={{ y: hidden ? -100 : 0, opacity: hidden ? 0 : 1 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        {/* DESKTOP */}
+
         <div className="hidden md:flex gap-10 md:gap-20 flex-wrap justify-center text-white">
           {links.map((link) => {
             const isHome = link.name === "Início";
@@ -77,7 +77,7 @@ export default function Navbar() {
               >
                 <span className="relative inline-block cursor-pointer group">
                   {link.name}
-                  {/* HOVER ANIMADO DO DESKTOP */}
+          
                   <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-[#BF925A] transition-all duration-300 group-hover:w-full"></span>
                 </span>
               </Link>
@@ -85,7 +85,6 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* BOTÃO HAMBURGUER / X */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden absolute top-6 right-6 z-50 w-8 h-8 flex flex-col justify-center items-center gap-1"
@@ -109,7 +108,7 @@ export default function Navbar() {
         </button>
       </motion.nav>
 
-      {/* OVERLAY */}
+   
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -121,7 +120,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MENU MOBILE */}
+  
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -131,7 +130,7 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="fixed top-0 right-0 h-full w-[75%] max-w-sm bg-[#0f0f0f] z-50 flex flex-col items-start justify-center px-10 gap-8 text-white shadow-2xl"
           >
-            {/* BOTÃO X INTERNO */}
+    
             <button
               onClick={() => setMenuOpen(false)}
               className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center"
@@ -140,7 +139,7 @@ export default function Navbar() {
               <span className="absolute w-6 h-0.5 bg-[#BF925A] -rotate-45" />
             </button>
 
-            {/* LINKS MOBILE */}
+   
             {mobileLinks.map((link) => {
               const isHome = link.name === "Início";
 
