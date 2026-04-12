@@ -5,17 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { WhatsappLogo } from "@phosphor-icons/react";
 import { useState } from "react";
-import { Product } from "./products";
+import { Product } from "../../data/products";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const [imgIndex, setImgIndex] = useState<number>(0);
+  const [imgIndex, setImgIndex] = useState(0);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("pt-BR", {
+  const hasImages = product.images && product.images.length > 0;
+
+  const safeIndex = hasImages ? imgIndex % product.images.length : 0;
+
+  const imageSrc = hasImages ? product.images[safeIndex] : "/placeholder.jpg";
+
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
     }).format(price);
-  };
 
   return (
     <motion.div
@@ -29,7 +34,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="relative w-full h-52 overflow-hidden group">
         <Link href={`/produtos/${product.slug}`}>
           <Image
-            src={product.images[imgIndex]}
+            src={imageSrc}
             alt={product.name}
             fill
             className="object-cover transition duration-500 group-hover:scale-[1.05]"
@@ -57,14 +62,14 @@ export default function ProductCard({ product }: { product: Product }) {
           </Link>
 
           {/* BOLINHAS */}
-          {product.images.length > 1 && (
+          {hasImages && product.images.length > 1 && (
             <div className="flex gap-2">
               {product.images.map((_, i) => (
                 <div
                   key={i}
                   onClick={() => setImgIndex(i)}
                   className={`w-2.5 h-2.5 rounded-full cursor-pointer transition ${
-                    imgIndex === i
+                    safeIndex === i
                       ? "bg-[#DB9166] scale-110"
                       : "bg-gray-600 hover:bg-gray-400"
                   }`}
@@ -74,7 +79,7 @@ export default function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        {/* PREÇO + BOTÃO */}
+        {/* PREÇO */}
         <div className="flex justify-between items-end pt-3 border-t border-gray-800/40">
           <div>
             <span className="text-[11px] text-gray-400 block">

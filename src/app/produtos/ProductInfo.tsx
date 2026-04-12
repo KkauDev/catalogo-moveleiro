@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "./products";
+import { Product } from "../../data/products";
 import {
   WhatsappLogo,
   ShieldCheck,
