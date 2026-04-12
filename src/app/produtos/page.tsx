@@ -31,7 +31,7 @@ export default function ConjuntosPage() {
           Nosso Catálogo
         </h1>
         <p className="text-gray-400 mt-4 max-w-2xl">
-          Explore nossa coleção exclusiva de móveis com design premium,
+          Explore nosso catalogo exclusivo de móveis com design premium,
           qualidade excepcional e preços que cabem no seu bolso.
         </p>
       </div>
