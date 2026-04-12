@@ -33,7 +33,6 @@ export default function Introducao() {
   return (
     <section className="w-full flex flex-col items-center py-16 px-4 overflow-hidden">
       <div className="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-10">
-        {/* IMAGEM */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -45,13 +44,12 @@ export default function Introducao() {
             <Image
               src={mesa4}
               alt="Mesa Madan"
-              className="w-full h-48 sm:h-64 md:h-420px object-cover transition duration-500 hover:scale-105 hover:brightness-110"
+              className="w-full h-48 sm:h-64 md:h-420px object-cover "
               priority
             />
           </div>
         </motion.div>
 
-        {/* TEXTO */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -116,7 +114,7 @@ export default function Introducao() {
             <motion.div
               key={i}
               variants={itemVariants}
-              className="bg-[#1E1E26] p-6 rounded-xl border border-[#BF925A]/20 transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#BF925A]/10 hover:border-[#BF925A] flex-1 min-w-250px max-w-[320px]"
+              className="bg-[#1E1E26] p-6 rounded-xl border border-[#BF925A]/20  flex-1 min-w-250px max-w-[320px]"
             >
               <Icon
                 size={32}

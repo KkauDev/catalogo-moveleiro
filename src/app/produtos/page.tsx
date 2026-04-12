@@ -11,7 +11,6 @@ export default function ConjuntosPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Busca de Dados (Mock da API)
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getProducts();
@@ -21,14 +20,12 @@ export default function ConjuntosPage() {
     fetchProducts();
   }, []);
 
-  // Filtragem dinâmica client-side
   const filteredProducts = produtos.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
-    <div className="px-4 md:px-10 lg:px-28 pt-24 pb-16 min-h-screen bg-[#0A0F1C]">
-      {/* TÍTULO */}
+    <div className="px-4 md:px-10 lg:px-28 pb-16 min-h-screen">
       <div className="mb-10 text-center md:text-left">
         <h1 className="text-4xl md:text-5xl font-bold text-white border-b-2 border-[#DB9166] inline-block pb-3">
           Nosso Catálogo
@@ -39,9 +36,7 @@ export default function ConjuntosPage() {
         </p>
       </div>
 
-      {/* FILTROS + PESQUISA */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 bg-[#1E1E26] p-4 rounded-xl border border-gray-800">
-        {/* CORES */}
         <div className="flex gap-3 items-center">
           <span className="text-sm text-gray-400 mr-2 hidden sm:inline">
             Cores:
@@ -55,12 +50,11 @@ export default function ConjuntosPage() {
           ))}
         </div>
 
-        {/* SEARCH */}
         <div className="flex items-center border border-gray-700 rounded-lg px-4 py-2.5 w-full md:w-80 bg-[#0b0f1a] text-white transition duration-300 hover:border-[#DB9166] focus-within:border-[#DB9166] focus-within:ring-1 focus-within:ring-[#DB9166]">
           <MagnifyingGlass size={20} className="text-[#DB9166]" />
           <input
             type="text"
-            placeholder="Buscar móvel..."
+            placeholder="Buscar produto..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-transparent outline-none ml-3 w-full text-sm placeholder:text-gray-500 text-white"
@@ -68,7 +62,6 @@ export default function ConjuntosPage() {
         </div>
       </div>
 
-      {/* LOADING OU GRID */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#DB9166]"></div>
