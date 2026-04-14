@@ -21,12 +21,15 @@ export default function ProductGallery({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
+        // Ajustado para aspect-[4/3] para garantir compatibilidade do Tailwind
         className="relative w-full aspect-square md:aspect-4/3 rounded-2xl overflow-hidden bg-[#0b0f1a] border border-gray-800 shadow-xl"
       >
         <Image
           src={mainImage}
           alt={alt}
           fill
+          // Adicionado sizes para performance e remover o aviso do console
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
           className="object-cover"
           priority
         />
@@ -49,6 +52,7 @@ export default function ProductGallery({
                 src={img}
                 alt={`${alt} thumbnail ${index + 1}`}
                 fill
+                sizes="(max-width: 768px) 80px, 100px"
                 className="object-cover"
               />
             </button>

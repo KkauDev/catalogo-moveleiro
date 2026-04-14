@@ -50,9 +50,11 @@ export default function Home() {
           <Image
             src={logomadan}
             alt="Logo da Madan"
-            className="h-auto drop-shadow-2xl"
             width={700}
+            height={350} // Adicione um valor proporcional (ex: se o logo é 2:1)
             priority
+            className="h-auto w-auto drop-shadow-2xl" // Adicione w-auto aqui
+            style={{ width: "auto", height: "auto" }} // Isso garante que o Next.js aceite a proporção do CSS
           />
         </motion.div>
       </main>

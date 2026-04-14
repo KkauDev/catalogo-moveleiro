@@ -32,11 +32,17 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       {/* IMAGEM */}
       <div className="relative w-full h-52 overflow-hidden group">
-        <Link href={`/produtos/${product.slug}`}>
+        {/* CORREÇÃO: Adicionado 'block w-full h-full' no Link */}
+        <Link
+          href={`/produtos/${product.slug}`}
+          className="block w-full h-full"
+        >
           <Image
             src={imageSrc}
             alt={product.name}
             fill
+            // CORREÇÃO: Adicionado sizes para remover o aviso de performance
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition duration-500 group-hover:scale-[1.05]"
           />
         </Link>

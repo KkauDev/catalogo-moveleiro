@@ -50,7 +50,9 @@ export default function Footer() {
             alt="Logo da Madan"
             width={200}
             height={100}
-            className="h-auto"
+            priority // Adicione isso se o logo estiver na Navbar (carrega mais rápido)
+            className="w-auto h-auto" // Garante que ambos se ajustem proporcionalmente
+            style={{ width: "auto", height: "auto" }} // Reforço para o Next.js não reclamar
           />
 
           <p className="text-gray-400 leading-relaxed text-sm">
