@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useScroll, useTransform, Variants } from "framer-motion";
-import Navbar from "@/components/layout/navbar";
 import Image from "next/image";
 import logomadan from "../../../public/img/logomadan.png";
 
@@ -37,8 +36,6 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
-
       {/* HERO */}
       <main className="flex h-screen w-full items-center justify-center overflow-hidden">
         <motion.div

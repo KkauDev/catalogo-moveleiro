@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/src/data/products";
-import { CaretLeft, CaretRight, WhatsappLogo } from "@phosphor-icons/react";
+import { CaretLeft, WhatsappLogo } from "@phosphor-icons/react";
 
 interface ProductViewProps {
   product: Product;
@@ -14,9 +14,7 @@ export default function ProductView({ product }: ProductViewProps) {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const images =
-    product.images && product.images.length > 0
-      ? product.images
-      : ["/placeholder.jpg"];
+    product.images?.length > 0 ? product.images : ["/placeholder.jpg"];
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("pt-BR", {
@@ -24,141 +22,120 @@ export default function ProductView({ product }: ProductViewProps) {
       currency: "BRL",
     }).format(price);
 
-  const next = () => setSelectedImage((prev) => (prev + 1) % images.length);
-
-  const prev = () =>
-    setSelectedImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-
   return (
-    <div className="px-4 md:px-10 lg:px-28 py-10 text-white bg-[#0b0f1a] min-h-screen">
+    <div className="w-full py-10 text-white">
       {/* VOLTAR */}
-      <Link
-        href="/produtos"
-        className="text-gray-400 hover:text-white text-sm mb-6 inline-block"
-      >
-        ← Voltar para catálogo
-      </Link>
+      <div className="px-4 md:px-10 max-w-7xl mx-auto w-full">
+        <Link
+          href="/produtos"
+          className="group flex items-center gap-2 text-gray-400 hover:text-white text-sm mb-8 transition-colors w-fit"
+        >
+          <CaretLeft size={16} />
+          Voltar para o catálogo
+        </Link>
+      </div>
 
-      {/* GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* ================= LEFT (IMAGENS) ================= */}
-        <div>
-          {/* IMAGEM GRANDE */}
-          {/* CORREÇÃO: h-500px corrigido para h-[500px] ou h-96, mantive [500px] para ficar grande */}
-          <div className="relative w-full h-500px rounded-xl overflow-hidden border border-gray-800">
+      {/* LAYOUT - CENTRALIZADO */}
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-center gap-10 px-4 md:px-0">
+        {/* ================= IMAGENS ================= */}
+        <div className="flex flex-col gap-3 items-center md:items-start">
+          {/* IMAGEM PRINCIPAL (QUADRADA MENOR) */}
+          <div className="w-220px aspect-square overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
             <Image
-              src={images[selectedImage] || "/placeholder.jpg"}
+              src={images[selectedImage]}
               alt={product.name}
-              fill
-              // CORREÇÃO: Adicionado sizes para remover o aviso
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              width={600}
+              height={220}
+              className="w-full h-full object-cover"
               priority
             />
-
-            {/* SETAS */}
-            {images.length > 1 && (
-              <>
-                <button
-                  onClick={prev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black p-2 rounded-full z-10"
-                >
-                  <CaretLeft size={18} />
-                </button>
-
-                <button
-                  onClick={next}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black p-2 rounded-full z-10"
-                >
-                  <CaretRight size={18} />
-                </button>
-              </>
-            )}
           </div>
 
-          {/* THUMBNAILS */}
-          <div className="flex gap-3 mt-4 flex-wrap">
+          {/* THUMBNAILS (QUADRADAS) */}
+          <div className="flex gap-3">
             {images.map((img, i) => (
-              <div
+              <button
                 key={i}
                 onClick={() => setSelectedImage(i)}
-                className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border ${
+                className={`w-50px aspect-square overflow-hidden rounded-md border transition ${
                   selectedImage === i
                     ? "border-[#DB9166]"
-                    : "border-gray-700 hover:border-gray-500"
+                    : "border-gray-700 opacity-50 hover:opacity-100"
                 }`}
               >
                 <Image
                   src={img}
                   alt={`Miniatura ${i + 1}`}
-                  fill
-                  // CORREÇÃO: Adicionado sizes para as miniaturas
-                  sizes="96px"
-                  className="object-cover"
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
                 />
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
-        {/* ================= RIGHT (INFO) ================= */}
-        <div className="flex flex-col gap-6">
-          {/* TITULO */}
-          <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-            {product.name}
-          </h1>
+        {/* ================= INFO ================= */}
+        <div className="flex flex-col gap-10 flex-1 max-w-2xl">
+          <div className="space-y-4 text-center md:text-left">
+            <span className="inline-block px-4 py-1.5 bg-[#DB9166]/10 text-[#DB9166] border border-[#DB9166]/20 text-xs font-bold rounded-full uppercase">
+              {product.category}
+            </span>
 
-          {/* DESCRIÇÃO */}
-          <p className="text-gray-400">{product.description}</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold">
+              {product.name}
+            </h1>
 
-          {/* INFO EXTRA */}
-          <div className="text-sm text-gray-300 space-y-1">
-            <p>Cadeiras: {product.chairs}</p>
-            <p>Tamanho: {product.tableSize}</p>
-            <p>Categoria: {product.category}</p>
+            <p className="text-gray-400">{product.description}</p>
           </div>
 
-          {/* PREÇO */}
-          <div>
-            <p className="text-sm text-gray-400">
-              12x {formatPrice(product.price / 12)}
-            </p>
+          <div className="grid grid-cols-2 gap-6 py-6 border-y border-gray-800/80 text-center md:text-left">
+            <div>
+              <span className="text-sm text-gray-500 uppercase">Cadeiras</span>
+              <p className="text-lg">{product.chairs}</p>
+            </div>
 
-            <p className="text-4xl font-bold text-[#DB9166]">
-              {formatPrice(product.price)}
-            </p>
-
-            <span className="text-xs text-gray-500 uppercase">à vista</span>
-          </div>
-
-          {/* CORES (mock visual) */}
-          <div>
-            <p className="mb-2 text-gray-300">Cores:</p>
-
-            <div className="flex gap-3 items-center">
-              {["#c2a07d", "#4b5563", "#e5e7eb"].map((color, i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full border border-gray-600 cursor-pointer"
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-
-              <span className="text-sm text-gray-400 underline cursor-pointer">
-                apagar
+            <div>
+              <span className="text-sm text-gray-500 uppercase">
+                Tamanho da Mesa
               </span>
+              <p className="text-lg">{product.tableSize}</p>
             </div>
           </div>
 
-          {/* BOTÃO WHATSAPP */}
-          <a
-            href={`https://wa.me/554115578859?text=Olá,%20tenho%20interesse%20no%20produto:%20${product.name}`}
-            target="_blank"
-            className="flex items-center justify-center gap-2 bg-[#DB9166] py-4 rounded-lg font-semibold hover:bg-[#c67f55] transition text-lg"
-          >
-            <WhatsappLogo size={22} weight="fill" />
-            Enviar para Atendente
-          </a>
+          <div className="bg-gray-900/40 p-6 rounded-2xl border border-gray-800 space-y-6">
+            <div className="text-center md:text-left">
+              <p className="text-sm text-gray-400">
+                12x de {formatPrice(product.price / 12)} sem juros
+              </p>
+
+              <div className="flex flex-col md:flex-row items-center md:items-end gap-2 md:gap-3 justify-center md:justify-start mt-2">
+                <p className="text-4xl font-extrabold text-[#DB9166]">
+                  {formatPrice(product.price)}
+                </p>
+
+                <span className="text-sm text-gray-500 uppercase md:mb-1">
+                  à vista
+                </span>
+              </div>
+            </div>
+
+            <a
+              href={`https://wa.me/554115578859?text=${encodeURIComponent(
+                `Olá, tenho interesse no produto: ${product.name}`,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 w-full bg-[#DB9166] hover:bg-[#c67f55] py-4 rounded-xl font-bold transition-colors"
+            >
+              <WhatsappLogo size={24} weight="fill" />
+              Enviar para um
+            </a>
+
+            <p className="text-center text-xs text-gray-500">
+              Atendimento online via WhatsApp
+            </p>
+          </div>
         </div>
       </div>
     </div>
