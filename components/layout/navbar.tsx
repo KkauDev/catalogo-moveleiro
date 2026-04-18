@@ -23,12 +23,10 @@ export default function Navbar() {
     }
   }
 
-  // Lógica de esconder/mostrar no Scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY || 0;
 
-      // Só esconde a navbar se o menu mobile estiver fechado
       if (!menuOpen) {
         if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
           setHidden(true);
@@ -45,7 +43,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [menuOpen]); // Dependência adicionada para reagir ao estado do menu
+  }, [menuOpen]);
 
   const navLinks = [
     { name: "Cadeiras", href: "/" },
@@ -58,18 +56,19 @@ export default function Navbar() {
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 w-full z-[60] pointer-events-none"
+        // ADICIONADO: pointer-events-none para a barra invisível não bloquear a página
+        className="fixed top-0 left-0 w-full z-[999] pointer-events-none" 
         initial={{ y: 0 }}
         animate={{ y: hidden ? "-100%" : "0%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        {/* Contêiner interno com altura definida para garantir o movimento correto */}
-        <div className="relative w-full h-20 md:h-24 flex items-center justify-center px-6 md:px-8">
-          {/* ================== DESKTOP ================== */}
-          <nav className="hidden md:flex gap-10 md:gap-16 flex-wrap justify-center text-white pointer-events-auto">
+        {/* ADICIONADO: pointer-events-auto para habilitar o clique na área que realmente importa */}
+        <div className="relative w-full h-20 md:h-24 flex items-center justify-center px-6 md:px-8 pointer-events-auto">
+          
+          {/* DESKTOP */}
+          <nav className="hidden md:flex gap-10 md:gap-16 flex-wrap justify-center text-white">
             {navLinks.map((link) => {
               const isHome = link.name === "Início";
-
               return (
                 <Link
                   key={link.name}
@@ -86,8 +85,8 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* ================== BOTÃO MOBILE ================== */}
-          <div className="md:hidden absolute right-6 top-1/2 -translate-y-1/2 z-[70] pointer-events-auto">
+          {/* BOTÃO MOBILE */}
+          <div className="md:hidden absolute right-6 top-1/2 -translate-y-1/2 z-[1000]">
             <Hamburger
               toggled={menuOpen}
               toggle={setMenuOpen}
@@ -100,7 +99,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ================== MENU DROPDOWN (ESTILO NUBANK) ================== */}
+        {/* MENU DROPDOWN MOBILE */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -108,8 +107,8 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              // Posicionado logo abaixo da altura do header (top-20)
-              className="absolute top-20 right-6 w-64 bg-[#111111] border border-white/10 rounded-xl shadow-2xl z-[60] flex flex-col pointer-events-auto md:hidden overflow-hidden"
+              // ADICIONADO: pointer-events-auto no menu
+              className="absolute top-20 right-6 w-64 bg-[#111111] border border-white/10 rounded-xl shadow-2xl z-[999] flex flex-col md:hidden overflow-hidden pointer-events-auto"
             >
               {navLinks.map((link, index) => {
                 const isHome = link.name === "Início";
