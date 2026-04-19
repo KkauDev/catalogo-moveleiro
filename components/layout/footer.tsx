@@ -36,7 +36,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0A0F1C] text-white border-t border-white/10 overflow-hidden">
+    <footer className="bg-[#0A0F1C] text-white border-t border-white/10 overflow-hidden ">
       <motion.div
         initial="hidden"
         whileInView="visible"

@@ -57,14 +57,14 @@ export default function Navbar() {
     <>
       <motion.header
         // ADICIONADO: pointer-events-none para a barra invisível não bloquear a página
-        className="fixed top-0 left-0 w-full z-[999] pointer-events-none" 
+        className="fixed top-0 left-0 w-full pointer-events-none"
+        style={{ zIndex: 999999 }}
         initial={{ y: 0 }}
         animate={{ y: hidden ? "-100%" : "0%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         {/* ADICIONADO: pointer-events-auto para habilitar o clique na área que realmente importa */}
         <div className="relative w-full h-20 md:h-24 flex items-center justify-center px-6 md:px-8 pointer-events-auto">
-          
           {/* DESKTOP */}
           <nav className="hidden md:flex gap-10 md:gap-16 flex-wrap justify-center text-white">
             {navLinks.map((link) => {
@@ -86,7 +86,7 @@ export default function Navbar() {
           </nav>
 
           {/* BOTÃO MOBILE */}
-          <div className="md:hidden absolute right-6 top-1/2 -translate-y-1/2 z-[1000]">
+          <div className="md:hidden absolute right-6 top-1/2 -translate-y-1/2" style={{ zIndex: 999999 }}>
             <Hamburger
               toggled={menuOpen}
               toggle={setMenuOpen}
@@ -108,7 +108,8 @@ export default function Navbar() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               // ADICIONADO: pointer-events-auto no menu
-              className="absolute top-20 right-6 w-64 bg-[#111111] border border-white/10 rounded-xl shadow-2xl z-[999] flex flex-col md:hidden overflow-hidden pointer-events-auto"
+              className="absolute top-20 right-6 w-64 bg-[#111111] border border-white/10 rounded-xl shadow-2xl flex flex-col md:hidden overflow-hidden pointer-events-auto"
+              style={{ zIndex: 999999 }}
             >
               {navLinks.map((link, index) => {
                 const isHome = link.name === "Início";
