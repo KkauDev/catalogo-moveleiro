@@ -8,6 +8,12 @@ export type GlassVariant = {
   image: string;
 };
 
+export type Combination = {
+  color: string; // Nome da cor da cadeira
+  glass: string; // Nome da cor do vidro
+  image: string; // Imagem com as duas cores juntas
+};
+
 export type Product = {
   id: number;
   name: string;
@@ -21,6 +27,7 @@ export type Product = {
   tableSize: "pequena" | "media" | "grande";
   colors?: ColorVariant[];
   glass?: GlassVariant[];
+  combinations?: Combination[];
   // Novas propriedades baseadas na imagem:
   height: string;
   width: string;
@@ -56,20 +63,54 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: "Mesa 6 cadeiras branca",
-    cadeiras: "4 cadeiras agatha",
+    name: "Mesa Mark 130X130",
+    cadeiras: "+ 6 cadeiras modelo Agatha",
     slug: "mesa-6-cadeiras-branca",
     price: 1299,
     description: "Mesa moderna com 6 cadeiras, perfeita para famílias.",
     images: ["/img/imgMesa/mesa4.jpeg", "/img/imgMesa/mesa2.jpeg"],
     colors: [
-      { name: "Branco", image: "/img/imgMesa/mesa1.jpeg" },
-      { name: "Naturale/Off White", image: "/img/imgMesa/mesa2.jpeg" },
-      { name: "Preto", image: "/img/imgMesa/mesa3.jpeg" },
+      { name: "nevoa", image: "/img/imgAgth/agatha-off-nevoa.jpg" },
+      { name: "cinza", image: "/img/imgAgth/agatha-off-cinza.jpg" },
+      { name: "marrom", image: "/img/imgAgth/agatha-off-marrom.jpg" },
     ],
     glass: [
-      { name: "Off White", image: "/img/imgMesa/mesa1.jpeg" },
-      { name: "Black", image: "/img/imgMesa/mesa2.jpeg" },
+      { name: "Off White", image: "/img/imgAgth/agatha-off-cinza.jpg" },
+      { name: "Preto", image: "/img/imgAgth/agatha-preto-marrom.jpg" },
+    ],
+    // A MÁGICA ACONTECE AQUI:
+    combinations: [
+      {
+        color: "nevoa",
+        glass: "Off White",
+        image: "/img/imgAgth/agatha-off-nevoa.jpg",
+      },
+      {
+        color: "nevoa",
+        glass: "Preto",
+        image: "/img/imgAgth/agatha-preto-nevoa.jpg",
+      },
+      {
+        color: "cinza",
+        glass: "Off White",
+        image: "/img/imgAgth/agatha-off-cinza.jpg",
+      },
+      {
+        color: "cinza",
+        glass: "Preto",
+        image: "/img/imgAgth/agatha-preto-cinza.jpg",
+      },
+      {
+        color: "marrom",
+        glass: "Off White",
+        image: "/img/imgAgth/agatha-off-marrom.jpg",
+      },
+
+      {
+        color: "marrom",
+        glass: "Preto",
+        image: "/img/imgAgth/agatha-preto-marrom.jpg",
+      },
     ],
     category: "conjunto",
     chairs: 6,
@@ -78,5 +119,55 @@ export const products: Product[] = [
     width: "160 cm",
     depth: "90 cm",
     weight: "45 kg",
+  },
+  {
+    id: 3,
+    name: "Mesa Isadora 220x120 + 8 cadeiras Marie",
+    cadeiras: "8 cadeiras Marie",
+    slug: "mesa-isadora-8-cadeiras-marie",
+    price: 6999,
+    description:
+      "Mesa de alto padrão com design retrô sofisticado e detalhes em madeira Pau Ferro. Cadeiras Marie em madeira maciça com tela sintética.",
+    images: ["/img/imgMesa/mesa5.jpeg", "/img/imgMesa/mesa1.jpeg"],
+    colors: [{ name: "Creme", image: "/img/imgMesa/mesa5.jpeg" }],
+    category: "conjunto",
+    chairs: 8,
+    tableSize: "grande",
+    height: "80 cm",
+    width: "220 cm",
+    depth: "120 cm",
+    weight: "Não informado",
+  },
+  {
+    id: 4,
+    name: "Mesa Mark 130x130 + 6 Cadeiras Mark + Prato giratório",
+    cadeiras: "6 cadeiras Mark",
+    slug: "mesa-mark-6-cadeiras-giratorio",
+    price: 2049,
+    description:
+      "Mesa com prato giratório removível, tampo chanfrado e vidro temperado. Cadeiras em eucalipto tratado com tecido Luxor.",
+    images: [
+      "/img/imgMesa/mesa6.jpg",
+      "/img/imgMesa/mesa8.jpg",
+      "/img/imgMesa/mesa3.jpeg",
+      "/img/imgMesa/mesa4.jpeg",
+      "/img/imgMesa/mesa2.jpeg",
+    ],
+    colors: [
+      { name: "Creme", image: "/img/imgMesa/mesa2.jpeg" },
+      { name: "Marrom", image: "/img/imgMesa/mesa4.jpeg" },
+      { name: "Preto", image: "/img/imgMesa/mesa3.jpeg" },
+    ],
+    glass: [
+      { name: "Preto", image: "/img/imgMesa/mesa3.jpeg" },
+      { name: "Off White", image: "/img/imgMesa/mesa1.jpeg" },
+    ],
+    category: "conjunto",
+    chairs: 6,
+    tableSize: "media",
+    height: "80 cm",
+    width: "130 cm",
+    depth: "130 cm",
+    weight: "Não informado",
   },
 ];

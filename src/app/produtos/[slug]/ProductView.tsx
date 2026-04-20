@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/src/data/products";
 import {
   CaretLeft,
+  CaretRight,
   WhatsappLogo,
   ArrowsDownUp,
   ArrowsLeftRight,
@@ -21,19 +22,97 @@ export default function ProductView({ product }: ProductViewProps) {
   const images =
     product.images?.length > 0 ? product.images : ["/placeholder.jpg"];
 
-  // Pegamos a primeira cor como padrão (se existir)
+  // Configurações iniciais de cores e vidros
   const defaultColor =
     product.colors && product.colors.length > 0 ? product.colors[0] : null;
+  const defaultGlass =
+    product.glass && product.glass.length > 0 ? product.glass[0] : null;
 
-  // Estado para a cor selecionada
   const [selectedColor, setSelectedColor] = useState(
     defaultColor ? defaultColor.name : "",
   );
-
-  // Estado que controla qual imagem aparece no quadro grande
-  const [activeImage, setActiveImage] = useState(
-    defaultColor ? defaultColor.image : images[0],
+  const [selectedGlass, setSelectedGlass] = useState(
+    defaultGlass ? defaultGlass.name : "",
   );
+
+  // ================= ESTADOS DO CARROSSEL =================
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeImage, setActiveImage] = useState(images[0]);
+  const [progress, setProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const AUTOPLAY_TIME = 4000; // 4 segundos
+
+  // Funções de Navegação (Setinhas)
+  const handleNext = () => {
+    // Se estava vendo uma cor específica, volta para a primeira foto da galeria
+    const nextIndex =
+      activeIndex === -1 ? 0 : (activeIndex + 1) % images.length;
+    setActiveIndex(nextIndex);
+    setActiveImage(images[nextIndex]);
+  };
+
+  const handlePrev = () => {
+    const prevIndex =
+      activeIndex === -1
+        ? 0
+        : (activeIndex - 1 + images.length) % images.length;
+    setActiveIndex(prevIndex);
+    setActiveImage(images[prevIndex]);
+  };
+
+  // Temporizador Fluido (Sem travar o React)
+  useEffect(() => {
+    if (isPaused || activeIndex === -1) {
+      setProgress(0);
+      return;
+    }
+
+    // Dá um pequeno respiro para o CSS zerar a barra
+    const t1 = setTimeout(() => setProgress(100), 50);
+
+    // Passa a foto depois de 4 segundos
+    const t2 = setTimeout(() => {
+      handleNext();
+    }, AUTOPLAY_TIME);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      setProgress(0);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, isPaused]);
+
+  // Função que muda a imagem dependendo da combinação de cores/vidro
+  const handleSelection = (
+    type: "color" | "glass",
+    itemName: string,
+    fallbackImage: string,
+  ) => {
+    const newColor = type === "color" ? itemName : selectedColor;
+    const newGlass = type === "glass" ? itemName : selectedGlass;
+
+    if (type === "color") setSelectedColor(newColor);
+    if (type === "glass") setSelectedGlass(newGlass);
+
+    if (product.combinations && product.combinations.length > 0) {
+      const match = product.combinations.find(
+        (c) => c.color === newColor && c.glass === newGlass,
+      );
+
+      if (match) {
+        setActiveImage(match.image);
+        setActiveIndex(-1); // -1 significa que saiu da galeria principal
+        setIsPaused(true);
+        return;
+      }
+    }
+
+    setActiveImage(fallbackImage);
+    setActiveIndex(-1);
+    setIsPaused(true);
+  };
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("pt-BR", {
@@ -54,38 +133,83 @@ export default function ProductView({ product }: ProductViewProps) {
         </Link>
       </div>
 
-      {/* LAYOUT - CENTRALIZADO */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-center gap-10 px-4 md:px-0">
-        {/* ================= SEÇÃO DE IMAGENS ================= */}
-        <div className="flex flex-col gap-3 items-start">
-          {/* IMAGEM PRINCIPAL */}
-          <div className="w-[320px] md:w-[450px] aspect-square overflow-hidden rounded-xl border border-gray-800 bg-gray-900 relative">
+      {/* LAYOUT PRINCIPAL */}
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-center items-start gap-10 px-4 md:px-0">
+        {/* ================= SEÇÃO ESQUERDA (IMAGEM FIXA) ================= */}
+        <div className="flex flex-col gap-4 items-center md:sticky md:top-12 z-10">
+          {/* FOTO GRANDE E CONTROLES */}
+          <div
+            className="w-[320px] md:w-[450px] aspect-square overflow-hidden rounded-xl border border-gray-800 bg-gray-900 relative group"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             <Image
-              key={activeImage}
-              src={activeImage}
+              src={activeImage || "/placeholder.jpg"}
               alt={product.name}
               width={600}
               height={600}
-              className="w-full h-full object-cover transition-all duration-300 ease-in-out"
+              className="w-full h-full object-cover transition-opacity duration-300"
               priority
             />
+
+            {/* SETA ESQUERDA */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePrev();
+              }}
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md z-20 cursor-pointer shadow-lg"
+            >
+              <CaretLeft size={24} weight="bold" />
+            </button>
+
+            {/* SETA DIREITA */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNext();
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md z-20 cursor-pointer shadow-lg"
+            >
+              <CaretRight size={24} weight="bold" />
+            </button>
+
+            {/* BARRINHA DE PROGRESSO DO CARROSSEL */}
+            {activeIndex !== -1 && (
+              <div className="absolute bottom-0 left-0 h-1.5 w-full bg-black/50 z-20">
+                <div
+                  className="h-full bg-[#DB9166]"
+                  style={{
+                    width: `${progress}%`,
+                    transition:
+                      progress > 0 ? `width ${AUTOPLAY_TIME}ms linear` : "none",
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           {/* MINIATURAS DA GALERIA */}
-          <div className="flex gap-3 overflow-x-auto pb-2 max-w-[320px] md:max-w-[450px] scrollbar-hide">
+          <div className="flex gap-3 justify-center flex-wrap max-w-[320px] md:max-w-[450px]">
             {images.map((img, i) => (
               <button
                 key={i}
-                onClick={() => setActiveImage(img)}
-                className={`w-[60px] shrink-0 aspect-square overflow-hidden rounded-md border transition-all ${
-                  activeImage === img
-                    ? "border-[#DB9166] scale-[1.02]"
-                    : "border-gray-700 opacity-50 hover:opacity-100"
+                type="button"
+                onClick={() => {
+                  setActiveIndex(i);
+                  setActiveImage(img);
+                }}
+                className={`w-[60px] aspect-square relative rounded-md overflow-hidden border-2 transition-all duration-300 ${
+                  activeIndex === i
+                    ? "border-[#DB9166] scale-110 shadow-lg shadow-[#DB9166]/20"
+                    : "border-transparent opacity-50 hover:opacity-100 hover:border-gray-600"
                 }`}
               >
                 <Image
                   src={img}
-                  alt={`Miniatura ${i + 1}`}
+                  alt={`Posição ${i + 1}`}
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
@@ -95,10 +219,8 @@ export default function ProductView({ product }: ProductViewProps) {
           </div>
         </div>
 
-        {/* ================= SEÇÃO DE INFORMAÇÕES ================= */}
-        {/* Adicionado items-start para forçar alinhamento à esquerda */}
+        {/* ================= SEÇÃO DIREITA (INFORMAÇÕES COM ROLAGEM) ================= */}
         <div className="flex flex-col gap-8 flex-1 max-w-2xl items-start">
-          {/* Forçado text-left em todas as resoluções */}
           <div className="space-y-4 text-left w-full">
             <span className="inline-block px-4 py-1.5 bg-[#DB9166]/10 text-[#DB9166] border border-[#DB9166]/20 text-xs font-bold rounded-full uppercase">
               {product.category}
@@ -108,52 +230,16 @@ export default function ProductView({ product }: ProductViewProps) {
               <h1 className="text-3xl md:text-4xl font-extrabold leading-none">
                 {product.name}
               </h1>
-
               <p className="text-lg text-gray-400 font-medium">
                 {product.cadeiras}
               </p>
             </div>
 
-            {/* ================= SELETOR DE CORES ================= */}
-
-            {product.glass && product.glass.length > 0 && (
-              <div className="flex flex-col gap-3 py-2 items-start w-full">
-                <div className="flex gap-2 text-sm justify-start">
-                  <span className="text-gray-400">Vidro selecionado:</span>
-                  <span className="font-bold text-white">{selectedColor}</span>
-                </div>{" "}
-                <div className="flex flex-wrap gap-3 justify-start mt-1">
-                  {product.glass.map((color) => (
-                    <button
-                      key={color.name}
-                      onClick={() => {
-                        setSelectedColor(color.name);
-                        setActiveImage(color.image);
-                      }}
-                      title={color.name}
-                      className={`w-14 h-14 shrink-0 aspect-square rounded-md overflow-hidden border-2 transition-all duration-200 ${
-                        selectedColor === color.name
-                          ? "border-[#DB9166] scale-110 shadow-lg shadow-[#DB9166]/20"
-                          : "border-gray-700 hover:border-[#DB9166]/60 opacity-60 hover:opacity-100"
-                      }`}
-                    >
-                      <Image
-                        src={color.image}
-                        alt={color.name}
-                        width={60}
-                        height={60}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
+            {/* SELETOR DE CORES (CADEIRA) */}
             {product.colors && product.colors.length > 0 && (
               <div className="flex flex-col gap-3 py-2 items-start w-full">
                 <div className="flex gap-2 text-sm justify-start">
-                  <span className="text-gray-400">Cor selecionada:</span>
+                  <span className="text-gray-400">Cor da cadeira:</span>
                   <span className="font-bold text-white">{selectedColor}</span>
                 </div>
 
@@ -161,12 +247,12 @@ export default function ProductView({ product }: ProductViewProps) {
                   {product.colors.map((color) => (
                     <button
                       key={color.name}
-                      onClick={() => {
-                        setSelectedColor(color.name);
-                        setActiveImage(color.image);
-                      }}
+                      type="button"
+                      onClick={() =>
+                        handleSelection("color", color.name, color.image)
+                      }
                       title={color.name}
-                      className={`w-14 h-14 shrink-0 aspect-square rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                      className={`w-14 h-14 relative rounded-md overflow-hidden border-2 transition-all duration-200 ${
                         selectedColor === color.name
                           ? "border-[#DB9166] scale-110 shadow-lg shadow-[#DB9166]/20"
                           : "border-gray-700 hover:border-[#DB9166]/60 opacity-60 hover:opacity-100"
@@ -185,14 +271,43 @@ export default function ProductView({ product }: ProductViewProps) {
               </div>
             )}
 
-            <p className="text-gray-400 leading-relaxed whitespace-pre-wrap mt-4">
-              {product.description}
-            </p>
+            {/* SELETOR DE VIDROS */}
+            {product.glass && product.glass.length > 0 && (
+              <div className="flex flex-col gap-3 py-2 items-start w-full">
+                <div className="flex gap-2 text-sm justify-start">
+                  <span className="text-gray-400">Cor do vidro:</span>
+                  <span className="font-bold text-white">{selectedGlass}</span>
+                </div>
+
+                <div className="flex flex-wrap gap-3 justify-start mt-1">
+                  {product.glass.map((g) => (
+                    <button
+                      key={g.name}
+                      type="button"
+                      onClick={() => handleSelection("glass", g.name, g.image)}
+                      title={g.name}
+                      className={`w-14 h-14 relative rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                        selectedGlass === g.name
+                          ? "border-[#DB9166] scale-110 shadow-lg shadow-[#DB9166]/20"
+                          : "border-gray-700 hover:border-[#DB9166]/60 opacity-60 hover:opacity-100"
+                      }`}
+                    >
+                      <Image
+                        src={g.image}
+                        alt={g.name}
+                        width={60}
+                        height={60}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ESPECIFICAÇÕES TÉCNICAS */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 py-6 border-y border-gray-800/80 w-full">
-            {/* Altura */}
             <div className="flex items-center gap-3 justify-start">
               <ArrowsDownUp size={22} className="text-[#DB9166]" />
               <div className="flex flex-col text-left">
@@ -203,7 +318,6 @@ export default function ProductView({ product }: ProductViewProps) {
               </div>
             </div>
 
-            {/* Largura */}
             <div className="flex items-center gap-3 justify-start">
               <ArrowsLeftRight size={22} className="text-[#DB9166]" />
               <div className="flex flex-col text-left">
@@ -214,7 +328,6 @@ export default function ProductView({ product }: ProductViewProps) {
               </div>
             </div>
 
-            {/* Profundidade */}
             <div className="flex items-center gap-3 justify-start">
               <Cube size={22} className="text-[#DB9166]" />
               <div className="flex flex-col text-left">
@@ -225,7 +338,6 @@ export default function ProductView({ product }: ProductViewProps) {
               </div>
             </div>
 
-            {/* Peso */}
             <div className="flex items-center gap-3 justify-start">
               <Scales size={22} className="text-[#DB9166]" />
               <div className="flex flex-col text-left">
@@ -255,8 +367,8 @@ export default function ProductView({ product }: ProductViewProps) {
             </div>
 
             <a
-              href={`https://wa.me/554115578859?text=${encodeURIComponent(
-                `Olá! Vi no site e tenho interesse no produto: ${product.name}${selectedColor ? ` na cor ${selectedColor}` : ""}`,
+              href={`https://wa.me/5513991726451?text=${encodeURIComponent(
+                `Olá! Vi no site e tenho interesse no produto: ${product.name}${selectedColor ? ` na cor ${selectedColor}` : ""}${selectedGlass ? ` com vidro na cor ${selectedGlass}` : ""}`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -268,6 +380,16 @@ export default function ProductView({ product }: ProductViewProps) {
 
             <p className="text-center text-[10px] text-gray-500 uppercase tracking-widest">
               Atendimento especializado via WhatsApp
+            </p>
+          </div>
+
+          {/* DESCRIÇÃO DO PRODUTO (FIXADA AQUI NO FIM) */}
+          <div className="w-full mt-2 pt-6 border-t border-gray-800/80">
+            <h2 className="text-2xl font-bold text-white mb-6">
+              Descrição do Produto
+            </h2>
+            <p className="text-gray-400 leading-relaxed whitespace-pre-wrap">
+              {product.description}
             </p>
           </div>
         </div>
