@@ -42,53 +42,53 @@ export const products: Product[] = [
     cadeiras: "+ 6 cadeiras modelo Agatha",
     slug: "mesa-6-cadeiras-branca",
     price: 1299,
-    description: "Mesa moderna com 6 cadeiras, perfeita para famílias.",
+    description: "Mesa moderna com 6 cadeiras, perfeita para famílias grandes.",
     images: [
-      "/img/imgAgth/agatha-off-nevoa.jpg",
-      "/img/imgAgth/agatha-off-marrom.jpg",
-      "/img/imgAgth/agatha-off-cinza.jpg",
+      "/imgAghth/agatha-off-nevoa.jpg",
+      "/imgAgth/agatha-off-marrom.jpg",
+      "/imgAgth/agatha-off-cinza.jpg",
     ],
     colors: [
-      { name: "nevoa", image: "/img/imgAgth/agatha-off-nevoa.jpg" },
-      { name: "cinza", image: "/img/imgAgth/agatha-off-cinza.jpg" },
-      { name: "marrom", image: "/img/imgAgth/agatha-off-marrom.jpg" },
+      { name: "nevoa", image: "/imgAghth/agatha-off-nevoa.jpg" },
+      { name: "cinza", image: "/imgAgth/agatha-off-cinza.jpg" },
+      { name: "marrom", image: "/imgAgth/agatha-off-marrom.jpg" },
     ],
     glass: [
-      { name: "Off White", image: "/img/imgAgth/agatha-off-cinza.jpg" },
-      { name: "Preto", image: "/img/imgAgth/agatha-preto-marrom.jpg" },
+      { name: "Off White", image: "/imgAghth/agatha-off-cinza.jpg" },
+      { name: "Preto", image: "/imgAghth/agatha-preto-marrom.jpg" },
     ],
     // A MÁGICA ACONTECE AQUI:
     combinations: [
       {
         color: "nevoa",
         glass: "Off White",
-        image: "/img/imgAgth/agatha-off-nevoa.jpg",
+        image: "/imgAghth/agatha-off-nevoa.jpg",
       },
       {
         color: "nevoa",
         glass: "Preto",
-        image: "/img/imgAgth/agatha-preto-nevoa.jpg",
+        image: "/imgAghth/agatha-preto-nevoa.jpg",
       },
       {
         color: "cinza",
         glass: "Off White",
-        image: "/img/imgAgth/agatha-off-cinza.jpg",
+        image: "/imgAghth/agatha-off-cinza.jpg",
       },
       {
         color: "cinza",
         glass: "Preto",
-        image: "/img/imgAgth/agatha-preto-cinza.jpg",
+        image: "/imgAghth/agatha-preto-cinza.jpg",
       },
       {
         color: "marrom",
         glass: "Off White",
-        image: "/img/imgAgth/agatha-off-marrom.jpg",
+        image: "/imgAghth/agatha-off-marrom.jpg",
       },
 
       {
         color: "marrom",
         glass: "Preto",
-        image: "/img/imgAgth/agatha-preto-marrom.jpg",
+        image: "/imgAghth/agatha-preto-marrom.jpg",
       },
     ],
     category: "conjunto",
