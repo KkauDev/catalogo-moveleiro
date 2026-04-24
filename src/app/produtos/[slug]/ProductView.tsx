@@ -163,18 +163,43 @@ export default function ProductView({ product }: ProductViewProps) {
             >
               <CaretLeft size={24} weight="bold" />
             </button>
+            {/* CONTROLES DE NAVEGAÇÃO */}
+            <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-3 pointer-events-none z-20">
+              {/* SETA ESQUERDA */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePrev();
+                }}
+                className="bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md cursor-pointer shadow-lg pointer-events-auto border-none outline-none"
+              >
+                <CaretLeft size={24} weight="bold" />
+              </button>
 
-            {/* SETA DIREITA */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNext();
-              }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md z-20 cursor-pointer shadow-lg"
-            >
-              <CaretRight size={24} weight="bold" />
-            </button>
+              {/* SETA DIREITA */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNext();
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md z-20 cursor-pointer shadow-lg"
+              >
+                <CaretRight size={24} weight="bold" />
+              </button>
+              {/* SETA DIREITA */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNext();
+                }}
+                className="bg-black/40 hover:bg-[#DB9166] text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md cursor-pointer shadow-lg pointer-events-auto border-none outline-none"
+              >
+                <CaretRight size={24} weight="bold" />
+              </button>
+            </div>
 
             {/* BARRINHA DE PROGRESSO DO CARROSSEL */}
             {activeIndex !== -1 && (
@@ -192,7 +217,7 @@ export default function ProductView({ product }: ProductViewProps) {
           </div>
 
           {/* MINIATURAS DA GALERIA */}
-          <div className="flex gap-3 justify-center flex-wrap max-w-[320px] md:max-w-[450px]">
+          <div className="flex flex-row gap-4 justify-center items-center flex-wrap">
             {images.map((img, i) => (
               <button
                 key={i}
@@ -201,18 +226,17 @@ export default function ProductView({ product }: ProductViewProps) {
                   setActiveIndex(i);
                   setActiveImage(img);
                 }}
-                className={`w-[60px] aspect-square relative rounded-md overflow-hidden border-2 transition-all duration-300 ${
+                className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ease-in-out ${
                   activeIndex === i
-                    ? "border-[#DB9166] scale-110 shadow-lg shadow-[#DB9166]/20"
-                    : "border-transparent opacity-50 hover:opacity-100 hover:border-gray-600"
+                    ? "border-[#DB9166] ring-2 ring-[#DB9166]/30 scale-105"
+                    : "border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-400"
                 }`}
               >
                 <Image
                   src={img}
-                  alt={`Posição ${i + 1}`}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
+                  alt={`Miniatura ${i + 1}`}
+                  fill // Preenche o botão mantendo a proporção se usar Next.js
+                  className="object-cover"
                 />
               </button>
             ))}
